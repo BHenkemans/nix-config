@@ -1,0 +1,11 @@
+keys:
+  - &users:
+    - &bartjan age1n0k4lj6n3hkxr6kssrnjf3u6tckk7vfmgqgex3y34w9d6gz4pdwqw4aqg9
+  - &hosts:
+    - &air age1e2mdlw7g5kt2k837qgmsd7nezpa39uu9ecx5tah0jm6xd9w8753sl5f8tu
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_groups:
+    - age:
+      - *bartjan
+      - *air
