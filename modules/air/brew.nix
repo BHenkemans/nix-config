@@ -3,6 +3,8 @@ _ : {
     enable = true;
     casks = [
       "microsoft-teams"
+      "beeper"
+      "zotero"
       #"ipe"
     ];
     masApps = {
