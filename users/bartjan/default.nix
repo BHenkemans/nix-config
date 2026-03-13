@@ -1,10 +1,9 @@
 { pkgs, lib, ... } : {
   imports = [
     ./aerospace.nix
-    ./alacritty.nix
     ./firefox.nix
     ./git.nix
-    ./shell.nix
+    ./nvim.nix 
     ./sops.nix
     ./vscode.nix
   ];

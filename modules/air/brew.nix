@@ -3,9 +3,7 @@ _ : {
     enable = true;
     casks = [
       "microsoft-teams"
-      "beeper"
       "zotero"
-      #"ipe"
     ];
     masApps = {
       "WhatsApp" = 310633997;
@@ -14,6 +12,7 @@ _ : {
       "PowerPoint" = 462062816;
       "Outlook" = 985367838;
       "Excel" = 462058435;
+      "Windows App" = 1295203466; 
     };
     onActivation = {
       cleanup = "zap";

@@ -20,9 +20,14 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix4nvchad = {
+      url = "github:nix-community/nix4nvchad";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix }: {
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad }: {
     
     darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
       specialArgs = { inherit self inputs; }; 

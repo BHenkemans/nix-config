@@ -18,6 +18,14 @@
           "installation_mode" = "force_installed";
           "install_url" ="https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
         };
+        "87677a2c52b84ad3a151a4a72f5bd3c4@jetpack" = {
+          "installation_mode" = "force_installed";
+          "install_url" ="https://addons.mozilla.org/firefox/downloads/latest/grammarly-1/latest.xpi";
+        };
+        #"@testpilot-containers" = {
+        #  "installation_mode" = "force_installed";
+        #  "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
+        #};
       };
     };
     

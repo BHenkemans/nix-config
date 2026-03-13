@@ -12,16 +12,17 @@ in
       };
       NSGlobalDomain = {
         AppleShowAllExtensions = false;
-        ApplePressAndHoldEnabled = false;
+        ApplePressAndHoldEnabled = true;
         AppleICUForce24HourTime = true;
         KeyRepeat = 2;
+        _HIHideMenuBar = true;
       };
       dock = {
         autohide = true;
         show-recents = false;
         mouse-over-hilite-stack = false;
-        orientation = "left";
-        tilesize = 32;
+        orientation = "right";
+        tilesize = 24;
       };
       finder = {
         _FXShowPosixPathInTitle = false;
@@ -33,5 +34,6 @@ in
       };
       loginwindow.GuestEnabled = false;
     };
+    #TODO implement hot corners
   };
 }
