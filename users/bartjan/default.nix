@@ -5,6 +5,7 @@
     ./git.nix
     ./nvim.nix 
     ./sops.nix
+    ./terminal.nix
     ./vscode.nix
   ];
 
