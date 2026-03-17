@@ -2,7 +2,9 @@
 {
   home.packages = with pkgs; [
     nerd-fonts.meslo-lg
+    zoxide
   ];
+
   programs = {
     alacritty = {
       enable = true;
@@ -30,6 +32,13 @@
       enable = true;
       enableZshIntegration = true;
       settings = builtins.fromJSON (builtins.readFile "${pkgs.oh-my-posh}/share/oh-my-posh/themes/agnoster.omp.json");
+    };
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [
+        "--cmd cd"
+      ];
     };
   };
 }

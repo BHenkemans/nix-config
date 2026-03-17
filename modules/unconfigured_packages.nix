@@ -9,6 +9,7 @@
       pkgs.utm
       pkgs.claude-code
       pkgs.yubikey-manager
+      pkgs.thunderbird
     ] ++ lib.optionals pkgs.stdenv.isLinux [
       # These are packages which are installed using brew
       pkgs.eduvpn-client
