@@ -1,7 +1,7 @@
 { self, pkgs, config, ... }: {
   imports = [
-    ../../modules
-    ../../modules/air
+    ../../modules/workstations
+    ../../modules/workstations/air
   ];
 
   # The platform the configuration will be used on.
