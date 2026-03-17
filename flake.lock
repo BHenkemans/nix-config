@@ -179,6 +179,22 @@
         "type": "github"
       }
     },
+    "sops-repo": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773782227,
+        "narHash": "sha256-p34U7sj4Bsu0BlgokOgwSt7yWM4IoIfctsOT1eWoofw=",
+        "owner": "BHenkemans",
+        "repo": "nix-secrets",
+        "rev": "685df477971f371181f12aae7a717ce9e4a7b752",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BHenkemans",
+        "repo": "nix-secrets",
+        "type": "github"
+      }
+    },
     "systems": {
       "locked": {
         "lastModified": 1681028828,

@@ -27,7 +27,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad }: {
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad, sops-repo }: {
     
     darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
       specialArgs = { inherit self inputs; }; 

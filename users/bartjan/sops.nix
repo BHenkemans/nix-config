@@ -5,7 +5,7 @@
 
   sops = {
     age.keyFile = "${config.home.homeDirectory}/Library/Application Support/sops/age/keys.txt";
-    defaultSopsFile = ../../secrets.yaml;
+    defaultSopsFile = inputs.sops-repo + "/secrets.yaml";
     validateSopsFiles = true;
     secrets = {
       "private_keys/bartjan" = {

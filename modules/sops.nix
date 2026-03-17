@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs ,... }:
 {
 
   environment.systemPackages = [ pkgs.sops ];
   sops = {
-    defaultSopsFile = ../secrets.yaml;
+    defaultSopsFile = inputs.sops-repo + "/secrets.yaml";
     validateSopsFiles = true;
 
     age = {
