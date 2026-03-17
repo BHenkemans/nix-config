@@ -21,13 +21,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-repo = {
+      url = "github:BHenkemans/nix-secrets";
+      flake = false; 
+    };
+    
+    nvchad-starter = {
+      url = "github:BHenkemans/starter"; 
+      flake = false;
+    };
+
     nix4nvchad = {
       url = "github:nix-community/nix4nvchad";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nvchad-starter.follows = "nvchad-starter";
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad, sops-repo }: {
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad, nvchad-starter, sops-repo }: {
     
     darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
       specialArgs = { inherit self inputs; }; 

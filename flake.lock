@@ -100,7 +100,9 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "nvchad-starter": "nvchad-starter"
+        "nvchad-starter": [
+          "nvchad-starter"
+        ]
       },
       "locked": {
         "lastModified": 1772606251,
@@ -135,16 +137,15 @@
     "nvchad-starter": {
       "flake": false,
       "locked": {
-        "lastModified": 1753939018,
-        "narHash": "sha256-xdLr6tlU9uA+wu0pqha2br0fdVm+1MjgjbB5awz9ICU=",
-        "owner": "NvChad",
+        "lastModified": 1773778899,
+        "narHash": "sha256-c7BcBSr3ecwxwnGSe/4k5/kvLEDy9zmvVCZkWCPihuA=",
+        "owner": "BHenkemans",
         "repo": "starter",
-        "rev": "e3572e1f5e1c297212c3deeb17b7863139ce663e",
+        "rev": "9264a8e687de3e5313f98dff28e2db870c7362de",
         "type": "github"
       },
       "original": {
-        "owner": "NvChad",
-        "ref": "main",
+        "owner": "BHenkemans",
         "repo": "starter",
         "type": "github"
       }
@@ -156,7 +157,9 @@
         "nix-homebrew": "nix-homebrew",
         "nix4nvchad": "nix4nvchad",
         "nixpkgs": "nixpkgs",
-        "sops-nix": "sops-nix"
+        "nvchad-starter": "nvchad-starter",
+        "sops-nix": "sops-nix",
+        "sops-repo": "sops-repo"
       }
     },
     "sops-nix": {
