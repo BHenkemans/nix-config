@@ -1,6 +1,5 @@
 { pkgs, inputs, ... }:
 {
-
   environment.systemPackages = [ pkgs.sops ];
   sops = {
     defaultSopsFile = inputs.sops-repo + "/secrets.yaml";
