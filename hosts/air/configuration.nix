@@ -1,5 +1,6 @@
 { self, pkgs, config, ... }: {
   imports = [
+    ../../modules
     ../../modules/workstations
     ../../modules/workstations/air
   ];

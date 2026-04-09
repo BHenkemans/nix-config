@@ -16,6 +16,11 @@
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,12 +43,11 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad, nvchad-starter, sops-repo }: {
-    
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, disko, sops-nix, nix4nvchad, nvchad-starter, sops-repo }: {
     darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit self inputs; }; 
-      modules = [ 
-        nix-homebrew.darwinModules.nix-homebrew 
+      specialArgs = { inherit self inputs; };
+      modules = [
+        nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {
             enable = true;
@@ -61,6 +65,16 @@
         }
         sops-nix.darwinModules.sops
         ./hosts/air/configuration.nix
+      ];
+    };
+
+    nixosConfigurations."homelab-vm" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit self inputs; };
+      modules = [
+        disko.nixosModules.disko
+        sops-nix.nixosModules.sops
+        ./hosts/homelab-vm/configuration.nix
       ];
     };
   };

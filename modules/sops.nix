@@ -1,6 +1,5 @@
-{ pkgs, inputs ,... }:
+{ pkgs, lib, inputs, ... }:
 {
-
   environment.systemPackages = [ pkgs.sops ];
   sops = {
     defaultSopsFile = inputs.sops-repo + "/secrets.yaml";
@@ -8,8 +7,8 @@
 
     age = {
       sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      keyFile = "/var/lib/sops-nix/key.txt"; 
-      generateKey = true; 
+      keyFile = if pkgs.stdenv.isDarwin then "/var/lib/sops-nix/key.txt" else "/etc/sops/key";
+      generateKey = true;
     };
   };
 }
