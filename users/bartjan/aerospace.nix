@@ -1,5 +1,4 @@
-_ :
-
+{ pkgs, ... } :
 {
   programs.aerospace = {
     enable = true;
@@ -21,12 +20,11 @@ _ :
       "automatically-unhide-macos-hidden-apps" = true;
 
       # Sketchybar integration
-      #"exec-on-workspace-change" = [
-      #  "/bin/bash" 
-      #  "-c" 
-      #  "sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE && ~/.config/sketchybar/plugins/update_workspace_icons.sh"
-      #];
-
+      "exec-on-workspace-change" = [
+        "${pkgs.zsh}/bin/zsh"
+        "-c"
+        "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE"
+      ];
       key-mapping = {
         preset = "qwerty";
       };
@@ -39,10 +37,10 @@ _ :
         outer.right = 5;
         # Nix mixed-type lists are perfectly fine and map directly to TOML
         outer.top = [
-          { monitor.builtin = 10; }
-          { monitor."^LG" = 45; }
+          { monitor.Built-in = 10; }
+          { monitor."^LG" = 41; }
           { monitor.secondary = 10; }
-          10
+          50
         ];
       };
 
@@ -87,15 +85,15 @@ _ :
         "alt-8" = "workspace 8";
         "alt-9" = "workspace 9";
 
-        "alt-shift-1" = "move-node-to-workspace 1";
-        "alt-shift-2" = "move-node-to-workspace 2";
-        "alt-shift-3" = "move-node-to-workspace 3";
-        "alt-shift-4" = "move-node-to-workspace 4";
-        "alt-shift-5" = "move-node-to-workspace 5";
-        "alt-shift-6" = "move-node-to-workspace 6";
-        "alt-shift-7" = "move-node-to-workspace 7";
-        "alt-shift-8" = "move-node-to-workspace 8";
-        "alt-shift-9" = "move-node-to-workspace 9";
+        "alt-shift-1" = "move-node-to-workspace 1 --focus-follows-window";
+        "alt-shift-2" = "move-node-to-workspace 2 --focus-follows-window";
+        "alt-shift-3" = "move-node-to-workspace 3 --focus-follows-window";
+        "alt-shift-4" = "move-node-to-workspace 4 --focus-follows-window";
+        "alt-shift-5" = "move-node-to-workspace 5 --focus-follows-window";
+        "alt-shift-6" = "move-node-to-workspace 6 --focus-follows-window";
+        "alt-shift-7" = "move-node-to-workspace 7 --focus-follows-window";
+        "alt-shift-8" = "move-node-to-workspace 8 --focus-follows-window";
+        "alt-shift-9" = "move-node-to-workspace 9 --focus-follows-window";
 
         "alt-tab" = "workspace-back-and-forth";
         "alt-shift-tab" = "move-workspace-to-monitor --wrap-around next";
@@ -105,7 +103,7 @@ _ :
 
       mode.service.binding = {
         esc = ["reload-config" "mode main"];
-        r = ["flatten-workspace-tree" "mode main"]; # reset layout
+        "alt-shift-r" = ["flatten-workspace-tree" "mode main"]; # reset layout
         f = ["layout floating tiling" "mode main"]; # Toggle between floating and tiling layout
         backspace = ["close-all-windows-but-current" "mode main"];
 

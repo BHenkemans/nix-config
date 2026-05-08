@@ -1,0 +1,9 @@
+# Local scratch directory — never commit anything here
+tmp/
+
+# macOS
+.DS_Store
+
+# Editor leftovers
+*.swp
+*~

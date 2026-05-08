@@ -2,8 +2,8 @@
   description = "Bartjan's machines flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    
+    nixpkgs.url = "github:NixOS/nixpkgs/f98632e456ed3b8f5e5d0273ee7e6a5ba33f2a66";
+
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,11 +23,11 @@
 
     sops-repo = {
       url = "github:BHenkemans/nix-secrets";
-      flake = false; 
+      flake = false;
     };
-    
+
     nvchad-starter = {
-      url = "github:BHenkemans/starter"; 
+      url = "github:BHenkemans/starter";
       flake = false;
     };
 
@@ -36,14 +36,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nvchad-starter.follows = "nvchad-starter";
     };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad, nvchad-starter, sops-repo }: {
-    
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad, nvchad-starter, sops-repo, disko }: {
+
     darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit self inputs; }; 
-      modules = [ 
-        nix-homebrew.darwinModules.nix-homebrew 
+      specialArgs = { inherit self inputs; };
+      modules = [
+        nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {
             enable = true;
@@ -61,6 +66,16 @@
         }
         sops-nix.darwinModules.sops
         ./hosts/air/configuration.nix
+      ];
+    };
+
+    nixosConfigurations."docker" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit self inputs; };
+      modules = [
+        disko.nixosModules.disko
+        sops-nix.nixosModules.sops
+        ./hosts/docker/configuration.nix
       ];
     };
   };
