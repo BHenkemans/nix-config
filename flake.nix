@@ -43,40 +43,53 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, sops-nix, nix4nvchad, nvchad-starter, sops-repo, disko }: {
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+      home-manager,
+      nix-homebrew,
+      sops-nix,
+      nix4nvchad,
+      nvchad-starter,
+      sops-repo,
+      disko,
+    }:
+    {
 
-    darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit self inputs; };
-      modules = [
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            user = "bartjan";
-          };
-        }
-        home-manager.darwinModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = { inherit inputs; }; #For SOPS
-            users.bartjan = import ./users/bartjan;
-          };
-        }
-        sops-nix.darwinModules.sops
-        ./hosts/air/configuration.nix
-      ];
-    };
+      darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit self inputs; };
+        modules = [
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              user = "bartjan";
+            };
+          }
+          home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; }; # For SOPS
+              users.bartjan = import ./users/bartjan;
+            };
+          }
+          sops-nix.darwinModules.sops
+          ./hosts/air/configuration.nix
+        ];
+      };
 
-    nixosConfigurations."docker" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit self inputs; };
-      modules = [
-        disko.nixosModules.disko
-        sops-nix.nixosModules.sops
-        ./hosts/docker/configuration.nix
-      ];
+      nixosConfigurations."docker" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit self inputs; };
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          ./hosts/docker/configuration.nix
+        ];
+      };
     };
-  };
 }

@@ -1,8 +1,13 @@
-{ inputs, config, pkgs, ... }: {
+{
+  inputs,
+  pkgs,
+  ...
+}:
+{
   imports = [
     inputs.nix4nvchad.homeManagerModule
   ];
-  programs.nvchad =  {
+  programs.nvchad = {
     enable = true;
     extraPackages = with pkgs; [
       harper

@@ -46,14 +46,16 @@
       #shortcut = "Space";
       extraConfig = ''
         set-option -sa terminal-overrides ",xterm*:Tc"
-        set -g mouse on 
+        set -g mouse on
         set -g base-index 1
       '';
     };
     oh-my-posh = {
       enable = true;
       enableZshIntegration = true;
-      settings = builtins.fromJSON (builtins.readFile "${pkgs.oh-my-posh}/share/oh-my-posh/themes/agnoster.omp.json");
+      settings = builtins.fromJSON (
+        builtins.readFile "${pkgs.oh-my-posh}/share/oh-my-posh/themes/agnoster.omp.json"
+      );
     };
     zoxide = {
       enable = true;

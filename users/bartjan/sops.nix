@@ -1,4 +1,10 @@
-{ inputs, config, pkgs, ... }: {
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}:
+{
   imports = [
     inputs.sops-nix.homeManagerModules.sops
   ];
@@ -16,7 +22,7 @@
       };
     };
   };
-  home.activation.generateSshPubKey = config.lib.dag.entryAfter ["setupSops"] ''
+  home.activation.generateSshPubKey = config.lib.dag.entryAfter [ "setupSops" ] ''
     # Check if private key exists AND public key does NOT exist
     if [ -f "${config.home.homeDirectory}/.ssh/id_ed25519" ] && [ ! -f "${config.home.homeDirectory}/.ssh/id_ed25519.pub" ]; then
 

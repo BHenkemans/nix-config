@@ -1,4 +1,4 @@
-{ pkgs, ... } : {
+_: {
   imports = [
     ./nix.nix
     ./sops.nix

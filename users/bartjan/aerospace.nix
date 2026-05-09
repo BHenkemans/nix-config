@@ -1,11 +1,11 @@
-{ pkgs, ... } :
+{ pkgs, ... }:
 {
   programs.aerospace = {
     enable = true;
     launchd.enable = true;
 
     settings = {
-      "after-startup-command" = [];
+      "after-startup-command" = [ ];
       "start-at-login" = true;
 
       # Normalizations
@@ -16,7 +16,7 @@
       "default-root-container-layout" = "tiles";
       "default-root-container-orientation" = "auto";
 
-      "on-focused-monitor-changed" = ["move-mouse monitor-lazy-center"];
+      "on-focused-monitor-changed" = [ "move-mouse monitor-lazy-center" ];
       "automatically-unhide-macos-hidden-apps" = true;
 
       # Sketchybar integration
@@ -102,19 +102,46 @@
       };
 
       mode.service.binding = {
-        esc = ["reload-config" "mode main"];
-        "alt-shift-r" = ["flatten-workspace-tree" "mode main"]; # reset layout
-        f = ["layout floating tiling" "mode main"]; # Toggle between floating and tiling layout
-        backspace = ["close-all-windows-but-current" "mode main"];
+        esc = [
+          "reload-config"
+          "mode main"
+        ];
+        "alt-shift-r" = [
+          "flatten-workspace-tree"
+          "mode main"
+        ]; # reset layout
+        f = [
+          "layout floating tiling"
+          "mode main"
+        ]; # Toggle between floating and tiling layout
+        backspace = [
+          "close-all-windows-but-current"
+          "mode main"
+        ];
 
-        "alt-shift-left" = ["join-with left" "mode main"];
-        "alt-shift-down" = ["join-with down" "mode main"];
-        "alt-shift-up" = ["join-with up" "mode main"];
-        "alt-shift-right" = ["join-with right" "mode main"];
+        "alt-shift-left" = [
+          "join-with left"
+          "mode main"
+        ];
+        "alt-shift-down" = [
+          "join-with down"
+          "mode main"
+        ];
+        "alt-shift-up" = [
+          "join-with up"
+          "mode main"
+        ];
+        "alt-shift-right" = [
+          "join-with right"
+          "mode main"
+        ];
 
         down = "volume down";
         up = "volume up";
-        "shift-down" = ["volume set 0" "mode main"];
+        "shift-down" = [
+          "volume set 0"
+          "mode main"
+        ];
       };
     };
   };

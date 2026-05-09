@@ -1,4 +1,4 @@
-_ : {
+_: {
   homebrew = {
     enable = true;
     casks = [
