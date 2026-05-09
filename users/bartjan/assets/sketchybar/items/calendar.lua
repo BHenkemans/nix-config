@@ -3,7 +3,7 @@ local settings = require("settings")
 
 local cal = sbar.add("item", "calendar", {
   position    = "right",
-  update_freq = 10,
+  update_freq = 30,
   icon = {
     color         = colors.white,
     padding_left  = 8,
