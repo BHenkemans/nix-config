@@ -2,7 +2,7 @@
   description = "Bartjan's machines flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/f98632e456ed3b8f5e5d0273ee7e6a5ba33f2a66";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";

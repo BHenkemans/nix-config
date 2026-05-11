@@ -19,7 +19,7 @@ _: {
     #   "Windows App" = 1295203466;
     # };
     onActivation = {
-      cleanup = "zap";
+      # cleanup = "zap";
       autoUpdate = true;
       upgrade = true;
     };
