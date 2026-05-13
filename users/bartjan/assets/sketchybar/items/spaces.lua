@@ -63,12 +63,20 @@ local function bg_color(is_focused)
     or  colors.with_alpha(colors.bg2, 0.30)
 end
 
+-- Aerospace's monitor-id orders by physical arrangement, but sketchybar's
+-- `display` follows NSScreen order (1 = macOS main). Use aerospace's NSScreen
+-- placeholder so workspaces land on the screen aerospace assigned them to.
 local function build_display_map()
   local ws_display = {}
-  for disp_idx = 1, 4 do
-    local wss = read_lines("aerospace list-workspaces --monitor " .. disp_idx)
-    if #wss == 0 then break end
-    for _, sid in ipairs(wss) do ws_display[sid] = disp_idx end
+  for _, line in ipairs(read_lines(
+    "aerospace list-monitors --format '%{monitor-id} %{monitor-appkit-nsscreen-screens-id}'"
+  )) do
+    local mid, nsid = line:match("^(%d+)%s+(%d+)$")
+    if mid and nsid then
+      for _, sid in ipairs(read_lines("aerospace list-workspaces --monitor " .. mid)) do
+        ws_display[sid] = tonumber(nsid)
+      end
+    end
   end
   return ws_display
 end
