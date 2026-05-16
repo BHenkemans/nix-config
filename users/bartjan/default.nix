@@ -5,6 +5,7 @@
     ./firefox.nix
     ./git.nix
     ./nvim.nix
+    ./protonmail-bridge.nix
     ./sketchybar.nix
     ./sops.nix
     ./terminal.nix
