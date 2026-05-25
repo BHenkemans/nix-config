@@ -206,11 +206,11 @@
     "sops-repo": {
       "flake": false,
       "locked": {
-        "lastModified": 1779300580,
-        "narHash": "sha256-3V4zRcfSlbCu9/VNa9aAmtbGX7oETcPZty/26iSG2SY=",
+        "lastModified": 1779722024,
+        "narHash": "sha256-wV197rIGRzeO5uTJLsp2xaQDW1+TtLeW60wM+aGTZg8=",
         "owner": "BHenkemans",
         "repo": "nix-secrets",
-        "rev": "48a7be122b4dd52a19eefe7cf1ccac79c800f198",
+        "rev": "60b98ceb07efd42395bfdade3425bc44becf33b2",
         "type": "github"
       },
       "original": {
