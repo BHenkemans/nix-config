@@ -1,5 +1,9 @@
-{ pkgs, config, ... }: {
-  sops.secrets.abartjan-password-u.neededForUsers = true;
+{ config, inputs, ... }:
+{
+  sops.secrets.abartjan-password-u = {
+    neededForUsers = true;
+    sopsFile = inputs.sops-repo + "/secrets.yaml";
+  };
 
   users = {
     mutableUsers = false;

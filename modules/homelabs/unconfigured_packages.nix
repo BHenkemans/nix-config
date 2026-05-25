@@ -1,7 +1,7 @@
-{ pkgs, lib, ...}: {
-  environment.systemPackages =
-    [ 
-      pkgs.vim
-      pkgs.git
-    ];
+{ pkgs, ... }:
+{
+  environment.systemPackages = [
+    pkgs.vim
+    pkgs.git
+  ];
 }

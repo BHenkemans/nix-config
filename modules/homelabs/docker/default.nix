@@ -1,5 +1,9 @@
-_ : {
+_: {
   imports = [
+    ./backup.nix
     ./docker.nix
+    ./github-runner
+    ./traefik
+    ./vaultwarden
   ];
 }
