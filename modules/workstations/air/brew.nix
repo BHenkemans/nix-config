@@ -3,9 +3,9 @@ _: {
     enable = true;
     casks = [
       "microsoft-teams"
-      # zotero, macfuse: temporarily removed — patched brew in nix-homebrew
-      # 5.1.7 chokes parsing their cask metadata. Re-add once nix-homebrew
-      # bumps the brew version.
+      "zotero"
+      "macfuse"
+      "mattermost"
     ];
     # mas-cli requires apps to already exist in your Apple ID purchase history,
     # which is brittle to bootstrap. Install MAS apps via the App Store GUI.
@@ -19,7 +19,7 @@ _: {
     #   "Windows App" = 1295203466;
     # };
     onActivation = {
-      # cleanup = "zap";
+      cleanup = "zap";
       autoUpdate = true;
       upgrade = true;
     };

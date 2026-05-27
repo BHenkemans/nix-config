@@ -18,9 +18,11 @@
       zed-editor
       nil
       nixd
+      slack
     ]
     ++ lib.optionals stdenv.isLinux [
       # These are packages which are installed using brew
       eduvpn-client
+      mattermost-desktop
     ];
 }

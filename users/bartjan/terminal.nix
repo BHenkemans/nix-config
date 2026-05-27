@@ -30,6 +30,7 @@
       syntaxHighlighting.enable = true;
       shellAliases = {
         ssh-add-key = "eval \"$(ssh-agent -s)\" && ssh-add";
+        euc-share = "mkdir -p /tmp/crypt && rclone mount euc2027-crypt:/ /tmp/crypt --daemon --vfs-cache-mode writes";
       };
       initContent = ''
         if [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -n "$ALACRITTY_WINDOW_ID" ] && [ -z "$TERM_PROGRAM" ]; then
