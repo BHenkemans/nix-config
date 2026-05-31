@@ -39,7 +39,7 @@
         outer.top = [
           { monitor.Built-in = 10; }
           { monitor."^LG" = 41; }
-          { monitor.secondary = 10; }
+          { monitor.secondary = 41; }
           50
         ];
       };
