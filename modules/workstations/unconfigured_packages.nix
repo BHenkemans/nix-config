@@ -24,6 +24,9 @@
       })
       python315
       just 
+      rustup
+      rust-analyzer
+      btop
     ]
     ++ lib.optionals stdenv.isLinux [
       # These are packages which are installed using brew

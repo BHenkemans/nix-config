@@ -30,16 +30,16 @@
       };
 
       gaps = {
-        inner.horizontal = 5;
-        inner.vertical = 5;
-        outer.left = 5;
-        outer.bottom = 5;
-        outer.right = 5;
+        inner.horizontal = 25;
+        inner.vertical = 25;
+        outer.left = 25;
+        outer.bottom = 25;
+        outer.right = 25;
         # Nix mixed-type lists are perfectly fine and map directly to TOML
         outer.top = [
-          { monitor.Built-in = 10; }
-          { monitor."^LG" = 41; }
-          { monitor.secondary = 41; }
+          { monitor.Built-in = 35; }
+          { monitor."^LG" = 65; }
+          { monitor.secondary = 65; }
           50
         ];
       };
