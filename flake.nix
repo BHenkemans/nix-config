@@ -59,6 +59,11 @@
     }:
     {
 
+      formatter = {
+        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+      };
+
       darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit self inputs; };
         modules = [
@@ -90,6 +95,25 @@
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           ./hosts/docker/configuration.nix
+        ];
+      };
+
+      nixosConfigurations."nixrdp" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit self inputs; };
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; };
+              users.bartjan = import ./users/bartjan/linux.nix;
+            };
+          }
+          ./hosts/nixrdp/configuration.nix
         ];
       };
     };
