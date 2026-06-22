@@ -35,29 +35,42 @@ local function code_to_glyph(code)
   return "󰖗"
 end
 
--- Parse a wttr.in 12-hour time ("06:14 AM") into minutes since midnight.
-local function parse_12h(s)
-  local h, m, ap = (s or ""):match("(%d+):(%d+)%s*(%a%a)")
+-- Parse an ISO 8601 datetime ("2026-06-21T05:31") into minutes since midnight.
+local function parse_iso_minutes(s)
+  local h, m = (s or ""):match("T(%d+):(%d+)")
   if not h then return nil end
-  h, m = tonumber(h), tonumber(m)
-  ap = ap:upper()
-  if ap == "PM" and h ~= 12 then h = h + 12 end
-  if ap == "AM" and h == 12 then h = 0 end
-  return h * 60 + m
+  return tonumber(h) * 60 + tonumber(m)
 end
 
 local function fmt(minutes)
   return string.format("%02d:%02d", math.floor(minutes / 60), minutes % 60)
 end
 
+local function format_delta(seconds)
+  if not seconds then return nil end
+  local total = math.floor(math.abs(seconds) + 0.5)
+  local sign  = seconds >= 0 and "+" or "-"
+  local h, m, s = math.floor(total / 3600), math.floor((total % 3600) / 60), total % 60
+  if h > 0 then return string.format("%s%dh%02dm%02ds", sign, h, m, s) end
+  if m > 0 then return string.format("%s%dm%02ds", sign, m, s) end
+  return string.format("%s%ds", sign, s)
+end
+
 local location = os.getenv("WEATHER_LOCATION") or ""
-local fetch_cmd = string.format(
-  [[curl -s --max-time 10 'wttr.in/%s?format=j1' 2>/dev/null | ]] ..
-  [[jq -r '[.current_condition[0].weatherCode, .current_condition[0].temp_C, ]] ..
-  [[.weather[0].astronomy[0].sunrise, .weather[0].astronomy[0].sunset, ]] ..
-  [[.weather[1].astronomy[0].sunrise] | @tsv']],
-  location
-)
+-- wttr.in: weather code, temp, and lat/lon (resolved from WEATHER_LOCATION).
+-- open-meteo: sunrise/sunset (today + tomorrow) and daylight_duration
+--   for today vs yesterday, in seconds, so the delta has sub-minute resolution.
+local fetch_cmd = string.format([[
+WX=$(curl -s --max-time 10 'wttr.in/%s?format=j1' 2>/dev/null \
+  | jq -r '[.current_condition[0].weatherCode, .current_condition[0].temp_C, .nearest_area[0].latitude, .nearest_area[0].longitude] | @tsv' 2>/dev/null)
+[ -z "$WX" ] && exit 0
+LAT=$(printf '%%s' "$WX" | cut -f3)
+LON=$(printf '%%s' "$WX" | cut -f4)
+ASTRO=$(curl -s --max-time 10 "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LON&daily=sunrise,sunset,daylight_duration&past_days=1&forecast_days=2&timezone=auto" 2>/dev/null \
+  | jq -r '[.daily.sunrise[1], .daily.sunset[1], .daily.sunrise[2], (.daily.daylight_duration[1] - .daily.daylight_duration[0])] | @tsv' 2>/dev/null)
+[ -z "$ASTRO" ] && exit 0
+printf '%%s\t%%s\n' "$(printf '%%s' "$WX" | cut -f1,2)" "$ASTRO"
+]], location)
 
 -- "sun" shows the next sunrise/sunset, "weather" shows code + temperature.
 local mode  = "sun"
@@ -103,7 +116,10 @@ local function render()
   if mode == "sun" then
     local glyph, time = next_sun_event()
     if glyph then
-      weather:set({ icon = { string = glyph }, label = { string = time } })
+      local label    = time
+      local delta_str = format_delta(state.daylight_delta)
+      if delta_str then label = label .. " " .. delta_str end
+      weather:set({ icon = { string = glyph }, label = { string = label } })
       return
     end
   end
@@ -115,14 +131,15 @@ end
 
 weather:subscribe({ "routine", "forced" }, function()
   sbar.exec(fetch_cmd, function(out)
-    local code, temp, sr0, ss0, sr1 =
-      out:match("([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t\n]*)")
+    local code, temp, sr0, ss0, sr1, delta =
+      out:match("([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t\n]*)")
     if not code then return end
-    state.code     = code
-    state.temp     = temp
-    state.sunrise0 = parse_12h(sr0)
-    state.sunset0  = parse_12h(ss0)
-    state.sunrise1 = parse_12h(sr1)
+    state.code           = code
+    state.temp           = temp
+    state.sunrise0       = parse_iso_minutes(sr0)
+    state.sunset0        = parse_iso_minutes(ss0)
+    state.sunrise1       = parse_iso_minutes(sr1)
+    state.daylight_delta = tonumber(delta)
     render()
   end)
 end)
