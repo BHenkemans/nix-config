@@ -11,6 +11,11 @@
     enable = true;
     extraPackages = with pkgs; [
       harper
+      rust-analyzer
+      lldb
+      cargo-nextest
+      bacon
+      rustfmt
     ];
   };
 }
