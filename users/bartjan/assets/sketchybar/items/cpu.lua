@@ -131,8 +131,10 @@ driver:subscribe({ "routine", "forced" }, function()
       items.mem:set({ icon = { color = c }, label = { string = current.mem .. "%", color = c } })
     end
   )
+  -- Reads the latest sample produced by the macmon-pipe launchd agent
+  -- (see users/bartjan/sketchybar.nix). Avoids re-spawning macmon every tick.
   sbar.exec(
-    [[macmon pipe -s 1 2>/dev/null | head -1 | jq -r '.temp.cpu_temp_avg | round']],
+    [[jq -r '.temp.cpu_temp_avg | round' /tmp/macmon.json 2>/dev/null]],
     function(out)
       current.temp = tonumber(out) or 0
       local c = level_color(temp_severity(current.temp))

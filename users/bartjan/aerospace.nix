@@ -19,11 +19,14 @@
       "on-focused-monitor-changed" = [ "move-mouse monitor-lazy-center" ];
       "automatically-unhide-macos-hidden-apps" = true;
 
-      # Sketchybar integration
+      # Sketchybar integration. Use a small bash script from /nix/store rather
+      # than booting a full zsh per workspace switch.
       "exec-on-workspace-change" = [
-        "${pkgs.zsh}/bin/zsh"
-        "-c"
-        "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE"
+        "${pkgs.writeShellScript "aerospace-sb-trigger" ''
+          exec ${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change \
+            FOCUSED_WORKSPACE="$AEROSPACE_FOCUSED_WORKSPACE" \
+            PREV_WORKSPACE="$AEROSPACE_PREV_WORKSPACE"
+        ''}"
       ];
       key-mapping = {
         preset = "qwerty";
