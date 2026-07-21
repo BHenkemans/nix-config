@@ -13,6 +13,7 @@
       yubikey-manager
       thunderbird
       jetbrains.rust-rover
+      jetbrains.idea
       rustup
       zed-editor
       nil
