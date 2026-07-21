@@ -7,7 +7,6 @@
       git
       signal-desktop
       spotify
-      protonmail-bridge
       utm
       ansible
       claude-code
