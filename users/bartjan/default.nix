@@ -2,6 +2,7 @@
 {
   imports = [
     ./aerospace.nix
+    ./borg.nix
     ./firefox.nix
     ./git.nix
     ./nvim.nix
