@@ -5,7 +5,7 @@
 }:
 {
   imports = [
-    inputs.nix4nvchad.homeManagerModule
+    inputs.nix4nvchad.homeManagerModules.nvchad
   ];
   programs.nvchad = {
     enable = true;
