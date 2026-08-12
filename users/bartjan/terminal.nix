@@ -29,6 +29,7 @@
       enableCompletion = true;
       syntaxHighlighting.enable = true;
       shellAliases = {
+        ll = "ls -lah";
         ssh-add-key = "eval \"$(ssh-agent -s)\" && ssh-add";
         euc-share = "mkdir -p /tmp/crypt && rclone mount euc2027-crypt:/ /tmp/crypt --daemon --vfs-cache-mode writes";
       };
