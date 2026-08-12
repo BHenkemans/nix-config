@@ -154,25 +154,12 @@ let
         exit "$rc"
       fi
 
-      # --list echoes each archive with its kept/pruned decision, matching the
-      # immich backup's more verbose prune output. --save-space trades a little
-      # memory for lower peak disk use on the repo side.
-      # Scope to air-* so this prune never touches the crypt-* archives that
-      # share this repo (borg prune matches ALL archives by default).
-      borg prune --stats --show-rc --list --save-space \
-        --glob-archives 'air-*' \
-        --keep-hourly 24 \
-        --keep-daily 7 \
-        --keep-weekly 4 \
-        --keep-monthly 6
-
-      borg compact
-
       # --- Crypt volume (rclone remote) ---------------------------------------
       # Mount the euc2027-crypt: remote read-only to a dedicated path, back it up
-      # as its own crypt-* archive, then unmount. Best-effort: the home backup
-      # above already succeeded, so a mount/creation failure here only warns and
-      # doesn't fail the run (and doesn't block recording success below).
+      # as its own crypt-* archive, then unmount. This runs *before* prune/compact
+      # on purpose: those are repo maintenance and regularly die on a Storage Box
+      # SSH reset (rc 2), which under `set -e` used to abort the run and silently
+      # skip the crypt archive entirely.
       echo "=== crypt volume ==="
       mkdir -p "${cryptMount}"
       cryptReady=0
@@ -202,14 +189,6 @@ let
           "${cryptMount}" || crc=$?
         if [ "$crc" -gt 1 ]; then
           echo "crypt borg create failed with exit code $crc" >&2
-        else
-          borg prune --stats --show-rc --list --save-space \
-            --glob-archives 'crypt-*' \
-            --keep-hourly 24 \
-            --keep-daily 7 \
-            --keep-weekly 4 \
-            --keep-monthly 6
-          borg compact
         fi
       else
         echo "Crypt mount not ready after 30s; skipping crypt backup this run." >&2
@@ -218,6 +197,28 @@ let
       # Unmount now instead of waiting for the EXIT trap.
       kill "$rcloneMountPid" 2>/dev/null || true
       trap - EXIT
+
+      # --- Repo maintenance ----------------------------------------------------
+      # Both archive sets are safely on the Storage Box by now. Prune/compact are
+      # best-effort: the remote drops long-running SSH sessions often enough that
+      # a hard failure here must not fail the run or block the success marker —
+      # the next run retries and dedup makes the missed prune harmless.
+      # --list echoes each archive with its kept/pruned decision. --save-space
+      # trades a little memory for lower peak disk use on the repo side.
+      # Each prune is scoped by --glob-archives so it never touches the other
+      # archive set (borg prune matches ALL archives by default).
+      prune() {
+        borg prune --stats --show-rc --list --save-space \
+          --glob-archives "$1" \
+          --keep-hourly 24 \
+          --keep-daily 7 \
+          --keep-weekly 8 \
+          --keep-monthly 6 \
+          || echo "borg prune $1 failed with exit code $? (non-fatal)" >&2
+      }
+      prune 'air-*'
+      prune 'crypt-*'
+      borg compact || echo "borg compact failed with exit code $? (non-fatal)" >&2
 
       # Record success for the freshness guard above.
       date +%s > "$lastSuccessFile"
