@@ -58,9 +58,9 @@ in
 
       SMTP_HOST = "mail.henkemans.eu";
       SMTP_FROM = "svc_vaultwarden@bartjan.tech";
-      SMTP_PORT = "587";
-      SMTP_SECURITY = "starttls";
-      SMTP_USERNAME = "svc_vaultwarden";
+      SMTP_PORT = "465";
+      SMTP_SECURITY = "force_tls";
+      SMTP_USERNAME = "svc_vaultwarden@bartjan.tech";
     };
     environmentFiles = [ config.sops.templates."vaultwarden.env".path ];
     volumes = [ "vaultwarden:/data" ];
