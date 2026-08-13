@@ -18,6 +18,7 @@
       zed-editor
       nil
       nixd
+      nixos-rebuild
       (pkgs.texlive.combine {
         inherit (pkgs.texlive) scheme-full xetex;
       })
