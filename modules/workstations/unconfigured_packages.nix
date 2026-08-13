@@ -18,7 +18,6 @@
       zed-editor
       nil
       nixd
-      slack
       (pkgs.texlive.combine {
         inherit (pkgs.texlive) scheme-full xetex;
       })
@@ -30,6 +29,7 @@
     ]
     ++ lib.optionals stdenv.isLinux [
       # These are packages which are installed using brew
+      slack
       eduvpn-client
       mattermost-desktop
     ];
