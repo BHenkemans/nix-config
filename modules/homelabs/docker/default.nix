@@ -3,7 +3,7 @@ _: {
     ./actual
     ./backup.nix
     ./docker.nix
-    ./github-runner
+    # ./github-runner
     ./traefik
     ./vaultwarden
   ];

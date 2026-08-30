@@ -10,6 +10,7 @@
 
   virtualisation.oci-containers.containers.actual = {
     image = "docker.io/actualbudget/actual-server:latest";
+    pull = "newer";
     autoStart = true;
     environment = {
       ACTUAL_LOGIN_METHOD = "openid";

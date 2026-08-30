@@ -1,4 +1,5 @@
-_: {
+{ self, ... }:
+{
   imports = [
     ./disko.nix
     ../../modules/default.nix
@@ -22,5 +23,9 @@ _: {
   };
   time.timeZone = "Europe/Amsterdam";
   networking.hostName = "docker";
+
+  # Git commit hash. Also drives the container restartTriggers in
+  # modules/homelabs/docker/docker.nix.
+  system.configurationRevision = self.rev or self.dirtyRev or null;
   system.stateVersion = "26.05";
 }

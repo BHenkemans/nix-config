@@ -31,6 +31,7 @@
 
   virtualisation.oci-containers.containers.traefik = {
     image = "traefik:latest";
+    pull = "newer";
     autoStart = true;
     environment = {
       CF_DNS_API_TOKEN_FILE = "/run/secrets/cf_api_token";

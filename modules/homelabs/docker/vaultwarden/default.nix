@@ -42,6 +42,7 @@ in
 
   virtualisation.oci-containers.containers.vaultwarden = {
     image = "vaultwarden/server:latest";
+    pull = "newer";
     autoStart = true;
     environment = {
       DOMAIN = "https://vault.henkemans.be";
@@ -69,6 +70,7 @@ in
 
   virtualisation.oci-containers.containers.vaultwarden-tunnel = {
     image = "cloudflare/cloudflared:latest";
+    pull = "newer";
     autoStart = true;
     cmd = [
       "tunnel"
