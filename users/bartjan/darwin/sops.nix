@@ -10,6 +10,12 @@
   ];
 
   sops = {
+    # Darwin-only: this works because the personal age identity (age1n0k4lj…)
+    # lives inside the home directory, so Home Manager — which runs as the
+    # user — can read it. There is no Linux equivalent: the only enrolled
+    # identity on a NixOS host is /etc/sops/key, which is root-owned, so the
+    # Linux side deploys these same secrets from the *system* sops layer
+    # instead. See modules/workstations/linux/sops.nix.
     age.keyFile = "${config.home.homeDirectory}/Library/Application Support/sops/age/keys.txt";
     defaultSopsFile = inputs.sops-repo + "/secrets.yaml";
     validateSopsFiles = true;
