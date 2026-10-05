@@ -5,6 +5,7 @@ _: {
       "python@3.12"
       "uv"
       "can1357/tap/omp"
+      "siderolabs/tap/talosctl"
     ];
 
     # macOS GUI applications (Casks)
@@ -17,9 +18,11 @@ _: {
       "claude"
       "nextcloud"
       "gnucash"
+      "vorssaint"
       "slack"
       "claude-code"
       "radix"
+      "keepassxc"
     ];
 
     # masApps = {

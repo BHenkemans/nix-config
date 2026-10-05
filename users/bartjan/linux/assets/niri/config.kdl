@@ -1,0 +1,176 @@
+// niri config, generated from users/bartjan/linux/assets/niri/config.kdl.
+//
+// Keybinds mirror users/bartjan/darwin/aerospace.nix so the muscle memory
+// carries over from the Mac, with one deliberate change: the modifier is Super
+// rather than Alt. Alt is load-bearing in Linux apps (menu mnemonics, terminal
+// meta) in a way it isn't on macOS.
+//
+// Colours are the Sonokai palette from
+// users/bartjan/darwin/assets/sketchybar/colors.lua: blue #76cce0 for focus,
+// bg2 #3e4150 for unfocused — the same pairing jankyborders uses on air.
+
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+    }
+
+    touchpad {
+        tap
+        dwt
+        natural-scroll
+        click-method "clickfinger"
+    }
+
+    // Matches AeroSpace's on-focused-monitor-changed mouse warp.
+    warp-mouse-to-focus
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+// HP ZBook Studio G4 internal panel. Confirmed on this unit via
+// `niri msg outputs`: LG Display, 1920x1080 @ 60.02 Hz, 340x190 mm.
+// That is ~144 dpi, so scale 1 is correct -- no HiDPI scaling wanted.
+output "eDP-1" {
+    scale 1.0
+}
+
+layout {
+    // AeroSpace uses inner/outer gaps of 25; niri has a single gap value.
+    gaps 25
+
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 4
+        active-color "#76cce0"
+        inactive-color "#3e4150"
+    }
+
+    border {
+        off
+    }
+
+    struts {
+        top 0
+        bottom 0
+    }
+}
+
+prefer-no-csd
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// X11 bridge. programs.niri in nixpkgs builds the session with XWayland off,
+// so JetBrains IDEs and other X11 clients need this running.
+spawn-at-startup "xwayland-satellite"
+
+environment {
+    DISPLAY ":0"
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // Launchers
+    Mod+Return { spawn "alacritty"; }
+    Mod+D { spawn "fuzzel"; }
+    Mod+L { spawn "swaylock"; }
+
+    // alt-f -> fullscreen
+    Mod+F { fullscreen-window; }
+    Mod+Shift+F { maximize-column; }
+
+    // alt-slash / alt-comma toggled layouts on AeroSpace. niri is always
+    // scrolling-tiled, so the nearest equivalents are column width presets
+    // and consume/expel.
+    Mod+Slash { switch-preset-column-width; }
+    Mod+Comma { consume-or-expel-window-left; }
+    Mod+Period { consume-or-expel-window-right; }
+
+    // alt-arrows -> focus
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up    { focus-window-up; }
+    Mod+Down  { focus-window-down; }
+
+    // alt-shift-arrows -> move
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Down  { move-window-down; }
+
+    // alt-minus / alt-equal -> resize
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // alt-1..9 -> workspace
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+
+    // alt-shift-1..9 -> move node to workspace (focus follows)
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+
+    // alt-tab -> workspace back and forth
+    Mod+Tab { focus-workspace-previous; }
+    // alt-shift-tab -> move workspace to next monitor
+    Mod+Shift+Tab { move-workspace-to-monitor-next; }
+
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
+
+    // Window management
+    Mod+Q { close-window; }
+    Mod+V { toggle-window-floating; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+    // Screenshots
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // Media and brightness keys
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
+
+    // alt-shift-semicolon opened AeroSpace's service mode; niri has no modes,
+    // so the two things that mode was actually used for get direct binds.
+    Mod+Shift+E { quit; }
+    Mod+Shift+P { power-off-monitors; }
+}
