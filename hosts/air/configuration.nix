@@ -2,7 +2,7 @@
   imports = [
     ../../modules
     ../../modules/workstations
-    ../../modules/workstations/air
+    ../../modules/workstations/darwin
   ];
 
   # The platform the configuration will be used on.
