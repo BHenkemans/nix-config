@@ -21,6 +21,7 @@ _: {
       "nextcloud"
       "gnucash"
       "slack"
+      "claude-code"
     ];
 
     # masApps = {

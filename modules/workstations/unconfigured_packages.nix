@@ -9,7 +9,7 @@
       spotify
       utm
       ansible
-      claude-code
+      # claude-code
       yubikey-manager
       thunderbird
       jetbrains.rust-rover
@@ -27,6 +27,7 @@
       rustup
       rust-analyzer
       btop
+      nodejs
     ]
     ++ lib.optionals stdenv.isLinux [
       # These are packages which are installed using brew
