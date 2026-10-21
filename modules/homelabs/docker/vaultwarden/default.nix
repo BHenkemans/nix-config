@@ -7,7 +7,6 @@ in
   sops.secrets."vaultwarden/admin_token" = { };
   sops.secrets."vaultwarden/sso_client_secret" = { };
   sops.secrets."vaultwarden/smtp_password" = { };
-  sops.secrets."vaultwarden/tunnel_token" = { };
 
   sops.templates."vaultwarden.env".content = ''
     ADMIN_TOKEN=${config.sops.placeholder."vaultwarden/admin_token"}
@@ -15,29 +14,10 @@ in
     SMTP_PASSWORD=${config.sops.placeholder."vaultwarden/smtp_password"}
   '';
 
-  sops.templates."vaultwarden-tunnel.env".content = ''
-    TUNNEL_TOKEN=${config.sops.placeholder."vaultwarden/tunnel_token"}
-  '';
-
-  systemd.services.podman-vaultwarden-network = {
-    description = "Create vaultwarden podman network";
-    after = [ "network.target" ];
-    before = [
-      "podman-vaultwarden.service"
-      "podman-vaultwarden-tunnel.service"
-    ];
-    requiredBy = [
-      "podman-vaultwarden.service"
-      "podman-vaultwarden-tunnel.service"
-    ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      ${pkgs.podman}/bin/podman network inspect vaultwarden >/dev/null 2>&1 || \
-        ${pkgs.podman}/bin/podman network create vaultwarden
-    '';
+  # Traefik creates the shared proxy network; make sure it exists first.
+  systemd.services.podman-vaultwarden = {
+    after = [ "podman-traefik-network.service" ];
+    requires = [ "podman-traefik-network.service" ];
   };
 
   virtualisation.oci-containers.containers.vaultwarden = {
@@ -65,20 +45,21 @@ in
     };
     environmentFiles = [ config.sops.templates."vaultwarden.env".path ];
     volumes = [ "vaultwarden:/data" ];
-    extraOptions = [ "--network=vaultwarden" ];
-  };
-
-  virtualisation.oci-containers.containers.vaultwarden-tunnel = {
-    image = "cloudflare/cloudflared:latest";
-    pull = "newer";
-    autoStart = true;
-    cmd = [
-      "tunnel"
-      "run"
+    extraOptions = [
+      "--network=proxy"
+      "--security-opt=no-new-privileges:true"
     ];
-    environmentFiles = [ config.sops.templates."vaultwarden-tunnel.env".path ];
-    extraOptions = [ "--network=vaultwarden" ];
-    dependsOn = [ "vaultwarden" ];
+    labels = {
+      "traefik.enable" = "true";
+      "traefik.http.routers.vaultwarden.entrypoints" = "https";
+      "traefik.http.routers.vaultwarden.rule" = "Host(`vault.henkemans.be`)";
+      "traefik.http.routers.vaultwarden.middlewares" = "secured@file";
+      "traefik.http.routers.vaultwarden.tls" = "true";
+      # vault.henkemans.be isn't covered by the dashboard router's wildcard
+      # certs, so let the resolver issue one for this host.
+      "traefik.http.routers.vaultwarden.tls.certresolver" = "cloudflare";
+      "traefik.http.services.vaultwarden.loadbalancer.server.port" = "80";
+    };
   };
 
   # Borg backup to a dedicated Storage Box sub-account. The live SQLite DB is
