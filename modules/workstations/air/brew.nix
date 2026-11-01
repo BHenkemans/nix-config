@@ -22,6 +22,7 @@ _: {
       "gnucash"
       "slack"
       "claude-code"
+      "radix"
     ];
 
     # masApps = {
