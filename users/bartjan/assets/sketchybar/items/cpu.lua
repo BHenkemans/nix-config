@@ -27,7 +27,7 @@ local function level_color(s)
 end
 
 local function format_rate(bps)
-  if bps < 1024              then return string.format("%dB", bps) end
+  if bps < 1024              then return string.format("%dB", math.floor(bps + 0.5)) end
   if bps < 1024 * 1024       then return string.format("%dK", math.floor(bps / 1024 + 0.5)) end
   if bps < 1024 * 1024 * 1024 then return string.format("%.1fM", bps / (1024 * 1024)) end
   return string.format("%.1fG", bps / (1024 * 1024 * 1024))
