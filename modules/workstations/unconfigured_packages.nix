@@ -8,15 +8,11 @@
       signal-desktop
       spotify
       utm
-      ansible
       # claude-code
       yubikey-manager
       thunderbird
       jetbrains.rust-rover
-      jetbrains.idea
       rustup
-      zed-editor
-      nil
       nixd
       nixos-rebuild
       (pkgs.texlive.combine {
