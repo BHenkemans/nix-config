@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home.packages = with pkgs; [
     nerd-fonts.meslo-lg
@@ -33,11 +33,17 @@
         ssh-add-key = "eval \"$(ssh-agent -s)\" && ssh-add";
         euc-share = "mkdir -p /tmp/crypt && rclone mount euc2027-crypt:/ /tmp/crypt --daemon --vfs-cache-mode writes";
       };
-      initContent = ''
-        if [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -n "$ALACRITTY_WINDOW_ID" ] && [ -z "$TERM_PROGRAM" ]; then
-          tmux attach || tmux new-session
-        fi
-      '';
+      initContent = lib.mkMerge [
+        ''
+          if [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -n "$ALACRITTY_WINDOW_ID" ] && [ -z "$TERM_PROGRAM" ]; then
+            tmux attach || tmux new-session
+          fi
+        ''
+        # zoxide must be initialized last, after other prompt/chpwd hooks
+        (lib.mkOrder 2000 ''
+          eval "$(${lib.getExe pkgs.zoxide} init zsh --cmd cd)"
+        '')
+      ];
     };
     tmux = {
       enable = true;
@@ -61,10 +67,8 @@
     };
     zoxide = {
       enable = true;
-      enableZshIntegration = true;
-      options = [
-        "--cmd cd"
-      ];
+      # Initialized manually at the end of zsh initContent
+      enableZshIntegration = false;
     };
     direnv = {
       enable = true;

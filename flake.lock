@@ -139,11 +139,11 @@
     "nvchad-starter": {
       "flake": false,
       "locked": {
-        "lastModified": 1782469596,
-        "narHash": "sha256-Hn9ALLJc3uTKCV1sV4Txh2+94oqRn2v99tzBj1y/nl0=",
+        "lastModified": 1794656712,
+        "narHash": "sha256-ugP6OG6L3eiCP358gKoa/chPcCOvmf0Edx8rd+Sq3wY=",
         "owner": "BHenkemans",
         "repo": "starter",
-        "rev": "0cb449bd91c5f461bdd5b50bceab16340c0f7389",
+        "rev": "9cb9e2e72c27f9f777c182d2c7ebbda070c4dd5d",
         "type": "github"
       },
       "original": {

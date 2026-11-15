@@ -15,15 +15,9 @@
       rustup
       nixd
       nixos-rebuild
-      (pkgs.texlive.combine {
-        inherit (pkgs.texlive) scheme-full xetex;
-      })
       python315
-      just 
-      rustup
-      rust-analyzer
+      just
       btop
-      nodejs
     ]
     ++ lib.optionals stdenv.isLinux [
       # These are packages which are installed using brew

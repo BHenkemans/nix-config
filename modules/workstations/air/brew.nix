@@ -2,9 +2,6 @@ _: {
   homebrew = {
     enable = true;
     brews = [
-      "openssl@3"
-      "pkgconf"
-      "tailwindcss"
       "python@3.12"
       "uv"
       "can1357/tap/omp"
