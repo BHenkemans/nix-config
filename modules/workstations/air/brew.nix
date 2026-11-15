@@ -2,8 +2,6 @@ _: {
   homebrew = {
     enable = true;
     brews = [
-      "python@3.12"
-      "uv"
       "can1357/tap/omp"
     ];
 
