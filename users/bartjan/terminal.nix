@@ -7,20 +7,14 @@
   ];
 
   programs = {
-    alacritty = {
+    ghostty = {
       enable = true;
-      theme = "nordic";
+      package = pkgs.ghostty-bin;
       settings = {
-        window = {
-          opacity = 0.85;
-        };
-        font = {
-          normal = {
-            family = "MesloLGM Nerd Font";
-            style = "Regular";
-          };
-          size = 18;
-        };
+        theme = "Nord";
+        background-opacity = 0.85;
+        font-family = "MesloLGM Nerd Font";
+        font-size = 18;
       };
     };
     zsh = {
@@ -35,7 +29,7 @@
       };
       initContent = lib.mkMerge [
         ''
-          if [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -n "$ALACRITTY_WINDOW_ID" ] && [ -z "$TERM_PROGRAM" ]; then
+          if [ -z "$TMUX" ] && [ -n "$PS1" ] && [ "$TERM_PROGRAM" = "ghostty" ]; then
             tmux attach || tmux new-session
           fi
         ''
