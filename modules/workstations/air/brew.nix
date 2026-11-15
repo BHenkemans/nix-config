@@ -18,6 +18,7 @@ _: {
       "slack"
       "claude-code"
       "radix"
+      "omniwm"
     ];
 
     # masApps = {

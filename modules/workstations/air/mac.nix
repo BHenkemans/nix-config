@@ -15,8 +15,12 @@ in
         ApplePressAndHoldEnabled = true;
         AppleICUForce24HourTime = true;
         KeyRepeat = 2;
-        _HIHideMenuBar = true;
+        # Menu bar back now that SketchyBar is gone; OmniWM's workspace bar
+        # overlaps it by default.
+        _HIHideMenuBar = false;
       };
+      # OmniWM requires "Displays have separate Spaces" (spans-displays = false).
+      spaces.spans-displays = false;
       dock = {
         autohide = true;
         show-recents = false;
@@ -30,7 +34,8 @@ in
       };
       trackpad = {
         Clicking = true;
-        TrackpadThreeFingerDrag = true;
+        # Off: three fingers belong to OmniWM's column scrolling.
+        TrackpadThreeFingerDrag = false;
       };
       loginwindow.GuestEnabled = false;
     };

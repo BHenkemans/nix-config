@@ -1,12 +1,11 @@
 { lib, ... }:
 {
   imports = [
-    ./aerospace.nix
     ./borg.nix
     ./firefox.nix
     ./git.nix
     ./nvim.nix
-    ./sketchybar.nix
+    ./omniwm.nix
     ./sops.nix
     ./terminal.nix
     ./vscode.nix
