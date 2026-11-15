@@ -9,8 +9,6 @@ Personal Nix flake for Bartjan's machines:
 
 Secrets are stored in the private, non-flake input `sops-repo` (`BHenkemans/nix-secrets`). No secret files are kept in this repo.
 
-`CLAUDE.md` is stale. It lists a nonexistent `nixrdp` host, alacritty, the wrong brew lists, a root `assets/` directory, and commands such as `nix typeCheck` and `home-manager switch`. Trust the files and this document over it.
-
 ## Architecture & Data Flow
 
 ```mermaid
@@ -70,7 +68,7 @@ graph TD
 | `modules/workstations/air/` | `brew.nix` (Homebrew brews and casks) and `mac.nix` (`system.defaults`). |
 | `modules/homelabs/` | Base NixOS homelab modules: firewall, gc, qemu guest, ssh hardening, user `abartjan`. |
 | `modules/homelabs/docker/` | The container stack and the borg backup option. |
-| `users/bartjan/` | Home-manager modules. `default.nix` imports borg, firefox, git, nvim, omniwm, sops, terminal, vscode. |
+| `users/bartjan/` | Home-manager modules. `default.nix` imports borg, firefox, git, nvim, omniwm, sops, terminal. |
 | `tmp/` | Gitignored. Holds local age keys (`tmp/etc/sops/key`, `tmp/var/lib/sops-nix/key.txt`). Never read, print, or commit them. |
 
 ## Development Commands

@@ -8,7 +8,6 @@
     ./omniwm.nix
     ./sops.nix
     ./terminal.nix
-    ./vscode.nix
   ];
 
   home.sessionVariables = {

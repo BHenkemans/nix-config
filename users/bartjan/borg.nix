@@ -47,7 +47,6 @@ let
     "**/__pycache__"
     "${config.home.homeDirectory}/go/pkg" # Go module cache
     "${config.home.homeDirectory}/Applications" # nix-generated app bundles
-    "${config.home.homeDirectory}/.vscode" # VS Code extensions
     "${config.home.homeDirectory}/.yarn" # yarn cache
     "${config.home.homeDirectory}/.dx" # Dioxus CLI cache
     cryptMount # unattended crypt mount point (empty when unmounted)
