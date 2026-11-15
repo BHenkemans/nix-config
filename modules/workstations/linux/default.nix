@@ -3,8 +3,6 @@ _: {
   # alongside ../../modules/workstations.
   imports = [
     ./desktop.nix
-    ./hardware.nix
-    ./power.nix
     ./sops.nix
   ];
 }

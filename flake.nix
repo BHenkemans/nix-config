@@ -16,8 +16,6 @@
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,7 +51,6 @@
       nixpkgs,
       home-manager,
       nix-homebrew,
-      nixos-hardware,
       sops-nix,
       nix4nvchad,
       nvchad-starter,
@@ -108,13 +105,6 @@
         system = "x86_64-linux";
         specialArgs = { inherit self inputs; };
         modules = [
-          # HP ZBook Studio G4: i7-7700HQ (Kaby Lake) with Intel HD 630 and no
-          # discrete GPU. nixos-hardware exposes no ZBook profile and its
-          # kaby-lake GPU module is deprecated, so the microarchitecture
-          # specifics live in modules/workstations/linux/hardware.nix instead.
-          nixos-hardware.nixosModules.common-cpu-intel
-          nixos-hardware.nixosModules.common-pc-laptop
-          nixos-hardware.nixosModules.common-pc-laptop-ssd
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
