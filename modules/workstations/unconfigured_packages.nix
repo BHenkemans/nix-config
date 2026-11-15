@@ -15,7 +15,6 @@
       rustup
       nixd
       nixos-rebuild
-      python315
       just
       btop
     ]
